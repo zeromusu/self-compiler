@@ -6,25 +6,14 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "symbols.h"
 
 #define MAXLENGTH 16
+
+#include "y.tab.h"
 
 /* プロトタイプ宣言を追加*/
 int yyparse();
 
-
-typedef union {
-    int num;
-    char ident[MAXLENGTH+1];
-} token;
-
-/*
- * yylval という変数名にするのは，yacc との融合時にプログラムの変更を
- * 最小限にするためである．
- */
-token yylval; 
- 
 %}
 %option yylineno
 %%
@@ -103,12 +92,14 @@ main(int argc, char *argv[]) {
      * yyin は lex の内部変数であり，入力のファイルポインタを表す．
      */
     yyin = fp;
+    yyparse();
 
     /*
      * yylex() を呼び出すことにより，トークンが一つ切り出される．
      * yylex() の戻り値は，上のアクション部で定義した戻り値である．
      * yytext には，切り出されたトークンが文字列として格納されている．
      */
+    /*
     while (tok = yylex()) {
         switch (tok) {
         case NUMBER:
@@ -124,4 +115,5 @@ main(int argc, char *argv[]) {
             break;
         }
     }
+    */
 }
